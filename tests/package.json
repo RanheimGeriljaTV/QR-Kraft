@@ -1,0 +1,12 @@
+{
+  "name": "qr-kraft-tests",
+  "private": true,
+  "description": "Regresjonstester for QR Kraft. Kun testverktøy – ikke en del av appen.",
+  "scripts": {
+    "test": "playwright test"
+  },
+  "devDependencies": {
+    "@playwright/test": "1.65.0",
+    "jsqr": "1.4.0"
+  }
+}

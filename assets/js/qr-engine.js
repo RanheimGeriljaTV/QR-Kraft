@@ -3,6 +3,15 @@
  * Håndterer instansiering, live styling og eksport via qr-code-styling
  */
 
+/**
+ * qr-code-styling lagrer bare den laveste byten av hvert tegn (charCodeAt & 0xFF),
+ * så æøå ble Latin-1 og €/emoji ble ødelagt. Vi sender derfor ferdige UTF-8-bytes,
+ * ett tegn per byte. Ren ASCII blir uendret.
+ */
+function toUtf8ByteString(text) {
+  return Array.from(new TextEncoder().encode(text), (b) => String.fromCharCode(b)).join('');
+}
+
 class QREngine {
   constructor(previewContainerId) {
     this.container = document.getElementById(previewContainerId);
@@ -111,7 +120,7 @@ class QREngine {
       width: size,
       height: size,
       type: 'canvas',
-      data: this.state.data,
+      data: toUtf8ByteString(this.state.data),
       image: this.processedLogoDataUrl || undefined,
       dotsOptions,
       backgroundOptions,
